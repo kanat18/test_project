@@ -1,0 +1,47 @@
+{% if request.user.is_authenticated %}
+  <body>
+    <script>
+      function myFunction() {
+        var copyText = document.getElementById("token");
+        copyText.select();
+        document.execCommand("copy");
+      }
+    </script>
+    <h3>Ваш профиль</h3>
+    <h4>Ник: {{ user }}</h4>
+    <h4>Имя: {{ user.first_name }}</h4>
+    <h4>
+      Ваш токен для бота: <input type="text" value='{{ user.password }}' id="token" readonly>
+      <button onclick="myFunction()">Скопировать</button>
+    </h4>
+
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">Выйти с профиля</button>
+    </form>
+
+    <h4>Ваши сообщения:</h4>
+    {% for user_message in user_messages %}
+      <p>Текст: <b>{{ user_message.text }}</b> <br>Время: <b>{{ user_message.date }}</b></p>
+      <hr>
+    {% endfor %}
+
+  {% else %}
+    <div class="card-title nth-card-title">
+      <h4>Вы не авторизованы</h4>
+    </div>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-grid gap-2 d-md-block mt-2">
+          <button type="submit" class="btn btn-dark">Авторизоваться</button>
+        </div>
+    </form>
+    <form method="post" action="{% url 'registration' %}">
+      <h4>Еще нет аккаунта</h4>
+      {% csrf_token %}
+      <button type="submit" class="btn btn-dark">Зарегистрироваться</button>
+  </form>
+  </body>
+  {% endif %}
+  
