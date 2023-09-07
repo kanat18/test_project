@@ -25,7 +25,7 @@ cursor = conn.cursor()
 async def start_menu(message: types.Message):
         await bot.send_message(
             chat_id=message.from_user.id,
-            text='Отправьте мне ваш токен полученный из вашего профиля на сайте '
+            text='Отправьте мне ваш токен полученный из вашего профиля на сайте http://127.0.0.1:8000/'
             )
 
 
